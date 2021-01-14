@@ -24,6 +24,9 @@
     "reflective": {
       "fill": "C0C0C0",
       "stroke": ""
+    },
+    "laser": {
+      "stroke": "000000"
     }
   },
   "TeamB": {

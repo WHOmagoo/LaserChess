@@ -29,6 +29,8 @@ public class GameView extends GridPane{
   private HashMap<Pair<Integer, Integer>, PieceView> piecesDisplayed;
   private HashMap<Node, Pair<Integer, Integer>> pieceLocation;
   private HashMap<Node, Pair<Integer, Integer>> buttons;
+  private Collection<Node> lasersShowing;
+  private List<LaserSegment> laserPath;
 
   //private HashMap<Pair<Integer, Integer>, ArrayList<Node>> itemsInLocation;
 
@@ -382,6 +384,9 @@ public class GameView extends GridPane{
 
       //System.out.println(x + " " + y + " " + sp.getBoundsInParent());
       //node.setOnMouseClicked((e) -> System.out.println("Clicked on " + x + " " + y));
+
+
+
       super.add(node, x, y);
 
       Pair<Integer, Integer> loc = new Pair<>(x, y);
@@ -462,6 +467,25 @@ public class GameView extends GridPane{
     setMargin(newNode, new Insets(padding,padding,padding,padding));
   }
 
+  private void renderLaserPath(){
+    List<LaserSegment> newPath = gameBoard.getLaserPath();
+
+    if(laserPath != newPath) {
+      if(lasersShowing != null) {
+        removeAll(lasersShowing);
+      }
+      lasersShowing = new ArrayList<>(newPath.size());
+
+      for (LaserSegment ls : newPath) {
+        for(ImageView iv : LaserView.getViews(ls)){
+          Pair<Integer, Integer> displayLoc = gameLocationToViewLocation(ls.getLocX(), ls.getLoxY());
+          add(iv, displayLoc.getKey(), displayLoc.getValue());
+          lasersShowing.add(iv);
+        }
+      }
+    }
+  }
+
   public void update(){
     HashMap<Pair<Integer, Integer>, PieceView> newPiecesDisplayed = new HashMap<>(piecesDisplayed.size());
 
@@ -493,6 +517,8 @@ public class GameView extends GridPane{
     for(PieceView n : piecesToRelocate){
       addPiece(n, n.getGameX(), n.getGameY());
     }
+
+    renderLaserPath();
 //    for(int gameX = 0; gameX < gameBoard.sizeX; gameX++){
 //      for(int gameY = 0; gameY < gameBoard.getSizeY(); gameY++){
 //        Pair<Integer, Integer> viewLocation = gameLocationToViewLocation(gameX, gameY);

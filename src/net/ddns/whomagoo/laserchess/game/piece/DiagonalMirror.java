@@ -18,10 +18,10 @@ public class DiagonalMirror extends GamePiece{
   @Override
   public List<String> hit(String direction) {
     if(facing.equals(direction) || Directions.opposite(facing).equals(direction)){
-      return Collections.singletonList(Directions.counterClockwise(direction));
+      return Collections.singletonList(Directions.clockwise(direction));
     }
 
-    return Collections.singletonList(Directions.clockwise(direction));
+    return Collections.singletonList(Directions.counterClockwise(direction));
   }
 
   @Override

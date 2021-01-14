@@ -16,7 +16,7 @@ public class Block extends GamePiece {
   @Override
   public List<String> hit(String direction) {
     if(facing.equals(direction)){
-      return Collections.singletonList(Directions.opposite(direction));
+      return Collections.singletonList(direction);
     } else {
       return Collections.singletonList(Directions.DESTROYED);
     }

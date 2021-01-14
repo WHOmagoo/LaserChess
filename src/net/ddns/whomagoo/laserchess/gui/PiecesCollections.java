@@ -52,7 +52,8 @@ public class PiecesCollections {
         "Rotate Counterclockwise",
         "Tile Select",
         "Triangular Mirror",
-        "Fire Laser"
+        "Fire Laser",
+        "Laser Segment"
     };
 
     HashMap<String, GameSprite> result = new HashMap<>();

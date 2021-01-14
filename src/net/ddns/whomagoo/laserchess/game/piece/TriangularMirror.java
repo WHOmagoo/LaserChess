@@ -17,7 +17,7 @@ public class TriangularMirror extends GamePiece{
     if(facing.equals(direction)){
       return Collections.singletonList(Directions.clockwise(direction));
     } else if(Directions.clockwise(facing).equals(direction)){
-      return Collections.singletonList(Directions.counterClockwise(facing));
+      return Collections.singletonList(Directions.counterClockwise(direction));
     } else {
       return Collections.singletonList(Directions.DESTROYED);
     }

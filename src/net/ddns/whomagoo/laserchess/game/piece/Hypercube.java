@@ -1,6 +1,7 @@
 package net.ddns.whomagoo.laserchess.game.piece;
 
 import net.ddns.whomagoo.laserchess.game.Board;
+import net.ddns.whomagoo.laserchess.game.Directions;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Hypercube extends GamePiece {
 
   @Override
   public List<String> hit(String direction) {
-    return Collections.singletonList(direction);
+    return Collections.singletonList(Directions.opposite(direction));
   }
 
   @Override

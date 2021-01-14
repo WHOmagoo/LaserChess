@@ -5,7 +5,9 @@ import net.ddns.whomagoo.laserchess.game.move.Move;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +15,8 @@ public class Board {
 
 
   public int sizeX;
+  private List<LaserSegment> laserPath;
+
   private int getSizeX() {
     return sizeX;
   }
@@ -42,22 +46,22 @@ public class Board {
     init(edgeSize, edgeSize);
   }
 
+  public Board(int edgeSize, List<String> teamOrder){
+    init(edgeSize, edgeSize, teamOrder);
+  }
+
   private void init(int sizeX, int sizeY){
     this.sizeX = sizeX;
     this.sizeY = sizeY;
 
     items = new GamePiece[sizeX][sizeY];
+    laserPath = new ArrayList<>();
   }
 
   private void init(int sizeX, int sizeY, List<String> teamOrder){
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
     teamIterator = teamOrder.iterator();
     this.teamOrder = teamOrder;
-  }
-
-  public Board(int edgeSize, List<String> teamOrder){
-    init(edgeSize, edgeSize, teamOrder);
+    init(sizeX, sizeY);
   }
 
 
@@ -66,19 +70,15 @@ public class Board {
   }
 
   public Piece setPiece(int xPos, int yPos, Piece newPiece){
-    Piece old = items[xPos][yPos];
+    //Remove old piece
+    Piece removed = removePiece(xPos, yPos);
     items[xPos][yPos] = newPiece;
     if(newPiece != null) {
       newPiece.setXPos(xPos);
       newPiece.setYPos(yPos);
     }
 
-    if(old != null){
-      old.setXPos(-1);
-      old.setYPos(-1);
-    }
-
-    return old;
+    return removed;
   }
 
   public boolean inBounds(int xPos, int yPos){
@@ -117,9 +117,18 @@ public class Board {
         (yOrigin - 1 == yOther && xOrigin == yOther);
   }
 
-  private void removePiece(int x, int y){
-    if(inBounds(x, y))
+  private Piece removePiece(int x, int y){
+    if(inBounds(x, y)) {
+      Piece removing = items[x][y];
+      if (removing != null) {
+        removing.setXPos(-1);
+        removing.setYPos(-1);
+      }
       items[x][y] = null;
+      return removing;
+    }
+
+    return null;
   }
 
   private void respawnPiece(Piece pieceToMove){
@@ -186,5 +195,23 @@ public class Board {
     return inBounds(targetX, targetY)
         && items[targetX][targetY] != null
         && items[targetX][targetY].teamName().equals(teamName);
+  }
+
+  public void setLaserPath(List<LaserSegment> result) {
+    if(result == null){
+      result = new ArrayList<>();
+    }
+
+    for(LaserSegment segment : result){
+      if(Directions.DESTROYED.equals(segment.getDirectionOut())){
+        removePiece(segment.getLocX(), segment.getLoxY());
+      }
+    }
+
+    this.laserPath = result;
+  }
+
+  public List<LaserSegment> getLaserPath(){
+    return Collections.unmodifiableList(laserPath);
   }
 }

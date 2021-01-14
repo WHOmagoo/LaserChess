@@ -44,6 +44,8 @@ public class Move {
         case ROTATE_COUNTERCLOCKWISE:
           move = new Rotation(false);
           break;
+        case FIRE_LASER:
+          move = new FireLaser();
       }
   }
 

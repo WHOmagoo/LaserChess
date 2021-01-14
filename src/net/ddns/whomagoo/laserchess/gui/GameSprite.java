@@ -150,6 +150,14 @@ public class GameSprite extends Group {
       }
     }
 
+    shapes = items.get("laser");
+    if(shapes != null){
+      for (Shape s: shapes) {
+        s.setStroke(teamColors.get("laser").get("stroke"));
+        s.setStrokeWidth(11.7529);
+      }
+    }
+
     update();
   }
 

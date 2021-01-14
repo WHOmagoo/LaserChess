@@ -79,9 +79,9 @@ public class GameFactory {
         b.setPiece(pos[0], pos[1], pieces[team][i]);
       }
 
-      b.setPiece(4,4, new Hypercube("__environment__"));
     }
 
+    b.setPiece(4,4, new Hypercube("__environment__"));
 
     return b;
   }
