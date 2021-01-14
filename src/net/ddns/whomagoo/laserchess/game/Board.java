@@ -208,10 +208,10 @@ public class Board {
       }
     }
 
-    this.laserPath = result;
+    this.laserPath = Collections.unmodifiableList(result);
   }
 
   public List<LaserSegment> getLaserPath(){
-    return Collections.unmodifiableList(laserPath);
+    return laserPath;
   }
 }

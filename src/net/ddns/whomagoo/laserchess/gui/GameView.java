@@ -470,20 +470,23 @@ public class GameView extends GridPane{
   private void renderLaserPath(){
     List<LaserSegment> newPath = gameBoard.getLaserPath();
 
-    if(laserPath != newPath) {
-      if(lasersShowing != null) {
-        removeAll(lasersShowing);
-      }
+    if(lasersShowing != null) {
+      removeAll(lasersShowing);
+    }
+
+    if (laserPath != newPath) {
+      laserPath = newPath;
       lasersShowing = new ArrayList<>(newPath.size());
 
       for (LaserSegment ls : newPath) {
-        for(ImageView iv : LaserView.getViews(ls)){
+        for (ImageView iv : LaserView.getViews(ls)) {
           Pair<Integer, Integer> displayLoc = gameLocationToViewLocation(ls.getLocX(), ls.getLoxY());
           add(iv, displayLoc.getKey(), displayLoc.getValue());
           lasersShowing.add(iv);
         }
       }
     }
+
   }
 
   public void update(){
