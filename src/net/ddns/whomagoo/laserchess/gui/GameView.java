@@ -30,7 +30,7 @@ public class GameView extends GridPane{
   private HashMap<Node, Pair<Integer, Integer>> pieceLocation;
   private HashMap<Node, Pair<Integer, Integer>> buttons;
   private Collection<Node> lasersShowing;
-  private List<LaserSegment> laserPath;
+  private Collection<LaserSegment> laserPath;
 
   //private HashMap<Pair<Integer, Integer>, ArrayList<Node>> itemsInLocation;
 
@@ -429,12 +429,6 @@ public class GameView extends GridPane{
     return result != null ? result : result2;
   }
 
-  public void clear(int x, int y) {
-    if(inBounds(x, y)) {
-//      display[x][y].getChildren().clear();
-    }
-  }
-
   private boolean inBounds(int x, int y) {
     return 0 <= x && x < totalSquaresX && 0 <= y && y < totalSquaresY;
   }
@@ -468,7 +462,7 @@ public class GameView extends GridPane{
   }
 
   private void renderLaserPath(){
-    List<LaserSegment> newPath = gameBoard.getLaserPath();
+    Collection<LaserSegment> newPath = gameBoard.getLaserPath();
 
     if(lasersShowing != null) {
       removeAll(lasersShowing);
@@ -480,7 +474,7 @@ public class GameView extends GridPane{
 
       for (LaserSegment ls : newPath) {
         for (ImageView iv : LaserView.getViews(ls)) {
-          Pair<Integer, Integer> displayLoc = gameLocationToViewLocation(ls.getLocX(), ls.getLoxY());
+          Pair<Integer, Integer> displayLoc = gameLocationToViewLocation(ls.getLocX(), ls.getLocY());
           add(iv, displayLoc.getKey(), displayLoc.getValue());
           lasersShowing.add(iv);
         }

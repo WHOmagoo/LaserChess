@@ -5,24 +5,19 @@ import net.ddns.whomagoo.laserchess.game.move.Move;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Board {
 
 
   public int sizeX;
-  private List<LaserSegment> laserPath;
+  private Collection<LaserSegment> laserPath;
 
   private int getSizeX() {
     return sizeX;
   }
 
-  private int moveNumber;
-  private int curTeamMoveNumber;
+  private int movesTaken;
 
   private String curTeamTurn;
 
@@ -38,12 +33,8 @@ public class Board {
 
   private Piece[][] items;
 
-  public Board(int sizeX, int sizeY) {
+  public Board(int sizeX, int sizeY, List<String> teamOrder) {
     init(sizeX, sizeY);
-  }
-
-  public Board(int edgeSize){
-    init(edgeSize, edgeSize);
   }
 
   public Board(int edgeSize, List<String> teamOrder){
@@ -54,6 +45,8 @@ public class Board {
     this.sizeX = sizeX;
     this.sizeY = sizeY;
 
+    movesTaken = 0;
+
     items = new GamePiece[sizeX][sizeY];
     laserPath = new ArrayList<>();
   }
@@ -61,6 +54,7 @@ public class Board {
   private void init(int sizeX, int sizeY, List<String> teamOrder){
     teamIterator = teamOrder.iterator();
     this.teamOrder = teamOrder;
+    curTeamTurn = teamIterator.next();
     init(sizeX, sizeY);
   }
 
@@ -95,7 +89,9 @@ public class Board {
   }
 
   public List<Move> getMoves(Piece gamePiece){
-    if(gamePiece == null || "__environment__".equals(gamePiece.teamName())){
+    if(gamePiece == null
+        || "__environment__".equals(gamePiece.teamName())
+        || !curTeamTurn.equals(gamePiece.teamName())){
       return new ArrayList<>();
     }
 
@@ -197,21 +193,41 @@ public class Board {
         && items[targetX][targetY].teamName().equals(teamName);
   }
 
-  public void setLaserPath(List<LaserSegment> result) {
+  public void setLaserPath(Collection<LaserSegment> result) {
     if(result == null){
       result = new ArrayList<>();
     }
 
     for(LaserSegment segment : result){
       if(Directions.DESTROYED.equals(segment.getDirectionOut())){
-        removePiece(segment.getLocX(), segment.getLoxY());
+        removePiece(segment.getLocX(), segment.getLocY());
       }
     }
 
-    this.laserPath = Collections.unmodifiableList(result);
+    this.laserPath = Collections.unmodifiableCollection(result);
   }
 
-  public List<LaserSegment> getLaserPath(){
+  public Collection<LaserSegment> getLaserPath(){
     return laserPath;
+  }
+
+  public String getCurTeamTurn(){
+    return curTeamTurn;
+  }
+
+  private void nextTeam() {
+    if (!teamIterator.hasNext()) {
+      teamIterator = teamOrder.listIterator();
+    }
+    curTeamTurn = teamIterator.next();
+  }
+
+  public void moveTaken() {
+    if(movesTaken == 1){
+      movesTaken = 0;
+      nextTeam();
+    } else {
+      movesTaken++;
+    }
   }
 }

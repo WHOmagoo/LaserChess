@@ -2,11 +2,13 @@ package net.ddns.whomagoo.laserchess.game;
 
 import net.ddns.whomagoo.laserchess.game.piece.*;
 
+import java.util.Arrays;
+
 public class GameFactory {
   public static Board makeDefaultBoard(){
-    Board b = new Board(9);
-
     String[] teamNames = {"TeamA", "TeamB"};
+    Board b = new Board(9, Arrays.asList(teamNames));
+
 
     GamePiece pieces[][] = new GamePiece[2][18];
 

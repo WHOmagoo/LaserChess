@@ -8,44 +8,53 @@ import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class FireLaser implements MoveDoer {
   @Override
   public void doMove(Board board, Move move) {
+
     Piece p = move.getSource();
+    if(board.getCurTeamTurn().equals(p.teamName())) {
 
-    Pair<Integer, Integer> startLoc = Directions.getLocationInDirection(new Pair<>(p.xPos(), p.yPos()), p.facing());
-    List<LaserSegment> result = propagateLaser(startLoc, move.getSource().facing(), board);
-    board.setLaserPath(result);
-
+      Pair<Integer, Integer> startLoc = Directions.getLocationInDirection(new Pair<>(p.xPos(), p.yPos()), p.facing());
+      HashSet<LaserSegment> result = new HashSet<LaserSegment>();
+      propagateLaser(startLoc, move.getSource().facing(), board, result);
+      board.setLaserPath(result);
+      board.moveTaken();
+    }
   }
 
-  private List<LaserSegment> propagateLaser(Pair<Integer, Integer> loc, String directionPrevExit, Board board){
+  private void propagateLaser(Pair<Integer, Integer> loc, String directionPrevExit, Board board, HashSet<LaserSegment> laserSegments){
     Piece p = board.getPiece(loc.getKey(), loc.getValue());
 
     if(p == null){
-      ArrayList<LaserSegment> result = new ArrayList<>(Collections.singleton(new LaserSegment(Directions.opposite(directionPrevExit), directionPrevExit, loc)));
-      Pair<Integer, Integer> newLoc = Directions.getLocationInDirection(loc, directionPrevExit);
-      if(board.inBounds(newLoc.getKey(), newLoc.getValue())){
-        result.addAll(propagateLaser(newLoc, directionPrevExit, board));
+
+      LaserSegment nextMove = new LaserSegment(Directions.opposite(directionPrevExit), directionPrevExit, loc);
+
+      if(!laserSegments.add(nextMove)){
+        //Break Condition met
+        return;
       }
 
-      return result;
-    }
+      Pair<Integer, Integer> newLoc = Directions.getLocationInDirection(loc, directionPrevExit);
+      if(board.inBounds(newLoc.getKey(), newLoc.getValue())){
+        propagateLaser(newLoc, directionPrevExit, board, laserSegments);
+      }
+    } else {
 
-    List<String> directionsResult = p.hit(Directions.opposite(directionPrevExit));
-    ArrayList<LaserSegment> result = new ArrayList<>(directionsResult.size());
-    for(String directionResult : directionsResult){
-      result.add(new LaserSegment(Directions.opposite(directionPrevExit), directionResult, loc));
-      if(!Directions.DESTROYED.equals(directionResult)){
-        Pair<Integer, Integer> newLoc = Directions.getLocationInDirection(new Pair<>(p.xPos(), p.yPos()), directionResult);
-        if(board.inBounds(newLoc.getKey(), newLoc.getValue())){
-          result.addAll(propagateLaser(newLoc, directionResult, board));
+      List<String> directionsResult = p.hit(Directions.opposite(directionPrevExit));
+
+      for(String directionResult : directionsResult){
+        LaserSegment ls = new LaserSegment(Directions.opposite(directionPrevExit), directionResult, loc);
+        if(laserSegments.add(ls) && !Directions.DESTROYED.equals(directionResult)){
+          Pair<Integer, Integer> newLoc = Directions.getLocationInDirection(new Pair<>(p.xPos(), p.yPos()), directionResult);
+          if(board.inBounds(newLoc.getKey(), newLoc.getValue())){
+            propagateLaser(newLoc, directionResult, board, laserSegments);
+          }
         }
       }
     }
-
-    return result;
   }
 }

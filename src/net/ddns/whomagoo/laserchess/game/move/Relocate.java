@@ -7,6 +7,9 @@ public class Relocate implements MoveDoer {
   @Override
   public void doMove(Board board, Move move) {
     Piece piece = move.getSource();
-    board.movePiece(piece, move.getTargetX(), move.getTargetY());
+    if(board.getCurTeamTurn().equals(piece.teamName())) {
+      board.movePiece(piece, move.getTargetX(), move.getTargetY());
+      board.moveTaken();
+    }
   }
 }
