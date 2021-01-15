@@ -3,6 +3,7 @@ package net.ddns.whomagoo.laserchess.game;
 import javafx.util.Pair;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
+import net.ddns.whomagoo.laserchess.game.piece.Hypercube;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
 import java.util.*;
@@ -128,6 +129,7 @@ public class Board {
   }
 
   private void respawnPiece(Piece pieceToMove){
+    hasTeleported = true;
     ArrayList<Pair<Integer, Integer>> possibleMoves = new ArrayList<>(sizeX * sizeY);
 
     for(int x = 0; x < sizeX; x++){
@@ -145,7 +147,6 @@ public class Board {
   public Piece movePiece(int oldXPos, int oldYPos, int newXPos, int newYPos, Piece pieceToMove){
 
     if(newXPos == 4 && newYPos == 4){
-      hasTeleported = true;
       items[oldXPos][oldYPos] = null;
       respawnPiece(pieceToMove);
       return null;
@@ -153,6 +154,13 @@ public class Board {
 
     Piece result = setPiece(newXPos, newYPos, items[oldXPos][oldYPos]);
     items[oldXPos][oldYPos] = null;
+
+    if(pieceToMove instanceof Hypercube){
+      if(result != null){
+        respawnPiece(result);
+      }
+    }
+
     return result;
   }
 
@@ -220,6 +228,7 @@ public class Board {
       teamIterator = teamOrder.listIterator();
     }
     curTeamTurn = teamIterator.next();
+    hasTeleported = false;
   }
 
   public void moveTaken() {
@@ -229,5 +238,9 @@ public class Board {
     } else {
       movesTaken++;
     }
+  }
+
+  public boolean hasTeleported() {
+    return hasTeleported;
   }
 }

@@ -23,4 +23,22 @@ public class Hypercube extends GamePiece {
   public List<Move> getAllPossibleMoves() {
     return Move.movingMoves(xPos, yPos, this);
   }
+
+  @Override
+  public List<Move> getValidMoves(List<Move> moves, Board gp) {
+    ArrayList<Move> result = new ArrayList<Move>(moves.size());
+
+    for(Move m : moves){
+      if (m.getName().startsWith("Move")
+          && gp.hasTeleported()
+          && !gp.isNeutral(m.getTargetX(), m.getTargetY())){
+        continue;
+      }
+
+
+      result.add(m);
+    }
+
+    return result;
+  }
 }
