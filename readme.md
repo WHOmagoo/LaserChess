@@ -17,4 +17,4 @@ A chess like board game that involves strategy and planning
 
 ###Licence
 
-Licenced under GNU GENERAL PUBLIC LICENSE, check Licence.md for more information
+Licenced under GNU GENERAL PUBLIC LICENSE, check Licence.md for more information. Feel free to make changes and redistribute them as open source software.
