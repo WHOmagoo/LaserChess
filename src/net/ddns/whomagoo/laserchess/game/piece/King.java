@@ -27,7 +27,6 @@ public class King extends GamePiece{
 
   @Override
   public List<Move> getValidMoves(List<Move> moves, Board gp){
-    //TODO implement this
     ArrayList<Move> result = new ArrayList<Move>(moves.size());
 
     for(Move m : moves){
