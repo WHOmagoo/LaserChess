@@ -38,13 +38,6 @@ public class Block extends GamePiece {
         continue;
       }
 
-      if(m.getName().equals(Move.FIRE_LASER)){
-        //Calculates directly in front of the Laser in in bounds
-        if (!gp.inBounds((m.getTargetX() + m.getSource().xPos()) / 2, (m.getTargetY() + m.getSource().yPos()) / 2)){
-          continue;
-        }
-      }
-
       result.add(m);
     }
 

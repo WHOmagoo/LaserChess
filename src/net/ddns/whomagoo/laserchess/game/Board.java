@@ -13,6 +13,7 @@ public class Board implements Serializable {
 
   public int sizeX;
   private Collection<LaserSegment> laserPath;
+  private boolean laserFired;
 
   private int getSizeX() {
     return sizeX;
@@ -45,6 +46,8 @@ public class Board implements Serializable {
   private void init(int sizeX, int sizeY){
     this.sizeX = sizeX;
     this.sizeY = sizeY;
+
+    laserFired = false;
 
     movesTaken = 0;
 
@@ -142,6 +145,11 @@ public class Board implements Serializable {
 
     Pair<Integer, Integer> newLocation = possibleMoves.get((int) (Math.random() * possibleMoves.size()));
     setPiece(newLocation.getKey(), newLocation.getValue(), pieceToMove);
+
+    int rotationCount = (int) (Math.random() * 4);
+    for(int i = 0; i < rotationCount; i++) {
+      pieceToMove.rotate(true);
+    }
   }
 
   public Piece movePiece(int oldXPos, int oldYPos, int newXPos, int newYPos, Piece pieceToMove){
@@ -212,6 +220,7 @@ public class Board implements Serializable {
       }
     }
 
+    this.laserFired = true;
     this.laserPath = Collections.unmodifiableCollection(result);
   }
 
@@ -229,6 +238,7 @@ public class Board implements Serializable {
     }
     curTeamTurn = teamIterator.next();
     hasTeleported = false;
+    laserFired = false;
   }
 
   public void moveTaken() {
@@ -242,5 +252,9 @@ public class Board implements Serializable {
 
   public boolean hasTeleported() {
     return hasTeleported;
+  }
+
+  public boolean laserFired() {
+    return laserFired;
   }
 }

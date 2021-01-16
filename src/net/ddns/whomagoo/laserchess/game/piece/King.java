@@ -28,6 +28,16 @@ public class King extends GamePiece{
   @Override
   public List<Move> getValidMoves(List<Move> moves, Board gp){
     //TODO implement this
-    return super.getValidMoves(moves, gp);
+    ArrayList<Move> result = new ArrayList<Move>(moves.size());
+
+    for(Move m : moves){
+      if (m.getName().startsWith("Move") && gp.isSameTeam(m.getTargetX(), m.getTargetY(), teamName)){
+        continue;
+      }
+
+      result.add(m);
+    }
+
+    return result;
   }
 }

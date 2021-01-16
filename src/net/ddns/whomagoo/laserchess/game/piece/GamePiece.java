@@ -73,7 +73,7 @@ public abstract class GamePiece implements Piece{
 
       if(m.getName().equals(Move.FIRE_LASER)){
         //Calculates directly in front of the Laser in in bounds
-        if (!gp.inBounds((m.getTargetX() + m.getSource().xPos()) / 2, (m.getTargetY() + m.getSource().yPos()) / 2)){
+        if (gp.laserFired() || !gp.inBounds((m.getTargetX() + m.getSource().xPos()) / 2, (m.getTargetY() + m.getSource().yPos()) / 2)){
           continue;
         }
       }
