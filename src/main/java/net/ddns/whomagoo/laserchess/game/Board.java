@@ -1,11 +1,11 @@
 package net.ddns.whomagoo.laserchess.game;
 
-import javafx.util.Pair;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.Hypercube;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
+import javafx.util.Pair;
 import java.io.Serializable;
 import java.util.*;
 

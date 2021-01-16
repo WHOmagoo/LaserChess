@@ -1,6 +1,5 @@
 package net.ddns.whomagoo.laserchess.game.move;
 
-import javafx.scene.control.skin.TextInputControlSkin;
 import javafx.util.Pair;
 import net.ddns.whomagoo.laserchess.game.Board;
 import net.ddns.whomagoo.laserchess.game.Directions;
