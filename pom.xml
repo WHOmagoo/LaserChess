@@ -28,11 +28,6 @@
             <artifactId>javafx-controls</artifactId>
             <version>15.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${jodatime.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
