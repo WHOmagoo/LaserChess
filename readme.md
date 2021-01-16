@@ -11,6 +11,8 @@ A chess like board game that involves strategy and planning
 
 ## Planned Features
 * Multiplayer
+* Autosaving game
+* Move takebacks
 * Move History
 * Animated Laser
 * Laser sounds
