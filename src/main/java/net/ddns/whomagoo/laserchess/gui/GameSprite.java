@@ -9,6 +9,8 @@ import javafx.scene.shape.Shape;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +32,12 @@ public class GameSprite extends Group {
 
     Gson g = new Gson();
 
-    try {
-      FileReader fr = new FileReader("assets/TeamColors.json");
+    ClassLoader cl = ClassLoader.getPlatformClassLoader();
+    InputStream is = cl.getResourceAsStream("TeamColors.json");
+    InputStreamReader isr = new InputStreamReader(is);
+//      FileReader fr = new FileReader("assets/TeamColors.json");
 
-      Map<String, Map<String, Map<String, String>>> json = (Map<String, Map<String, Map<String, String>>>) g.fromJson(fr, Map.class);
+    Map<String, Map<String, Map<String, String>>> json = (Map<String, Map<String, Map<String, String>>>) g.fromJson(isr, Map.class);
 
 
     json.forEach((team, layer) -> {
@@ -69,10 +73,6 @@ public class GameSprite extends Group {
     });
 
     //BufferedInputStream bis = new BufferedInputStream(fr);
-
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
 
 
     return result;

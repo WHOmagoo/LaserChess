@@ -1,0 +1,85 @@
+{
+  "TeamA": {
+    "opaque": {
+      "fill2" : "8B0000",
+      "fill": "DC143C",
+      "stroke": ""
+    },
+    "opaqueBorder": {
+      "fill": "",
+      "stroke": "DC143C"
+    },
+    "reflectiveBorder": {
+      "fill": "",
+      "stroke": "C0C0C0"
+    },
+    "translucent": {
+      "fill": "DC143C66",
+      "stroke": ""
+    },
+    "translucentBorder": {
+      "fill": "",
+      "stroke": "8B0000"
+    },
+    "reflective": {
+      "fill": "C0C0C0",
+      "stroke": ""
+    },
+    "laser": {
+      "stroke": "000000"
+    }
+  },
+  "TeamB": {
+    "opaque": {
+      "fill": "1E90FF",
+      "stroke": ""
+    },
+    "opaqueBorder": {
+      "fill": "",
+      "stroke": "1E90FF"
+    },
+    "reflectiveBorder": {
+      "fill": "",
+      "stroke": "C0C0C0"
+    },
+    "translucent": {
+      "fill": "1E90FF66",
+      "stroke": ""
+    },
+    "translucentBorder": {
+      "fill": "",
+      "stroke": "1E90FF"
+    },
+    "reflective": {
+      "fill": "C0C0C0",
+      "stroke": ""
+    }
+  },
+
+  "__environment__": {
+    "opaque": {
+      "fill": "000000",
+      "stroke": ""
+    },
+    "opaqueBorder": {
+      "fill": "",
+      "stroke": "000000"
+    },
+    "reflectiveBorder": {
+      "fill": "",
+      "stroke": "C0C0C0"
+    },
+    "translucent": {
+      "fill": "00000066",
+      "stroke": ""
+    },
+    "translucentBorder": {
+      "fill": "",
+      "stroke": "000000"
+    },
+    "reflective": {
+      "fill": "C0C0C0",
+      "stroke": ""
+    }
+  }
+}
