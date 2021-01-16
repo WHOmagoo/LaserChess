@@ -6,10 +6,10 @@ import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.Hypercube;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Board {
-
+public class Board implements Serializable {
 
   public int sizeX;
   private Collection<LaserSegment> laserPath;

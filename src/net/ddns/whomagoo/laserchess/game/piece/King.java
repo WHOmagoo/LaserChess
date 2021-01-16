@@ -19,8 +19,15 @@ public class King extends GamePiece{
     return Collections.singletonList(Directions.DESTROYED);
   }
 
+
   @Override
   public List<Move> getAllPossibleMoves() {
     return Move.movingMoves(xPos, yPos, this);
+  }
+
+  @Override
+  public List<Move> getValidMoves(List<Move> moves, Board gp){
+    //TODO implement this
+    return super.getValidMoves(moves, gp);
   }
 }

@@ -67,7 +67,7 @@ public abstract class GamePiece implements Piece{
     ArrayList<Move> result = new ArrayList<Move>(moves.size());
 
     for(Move m : moves){
-      if (m.getName().startsWith("Move") && gp.isSameTeam(m.getTargetX(), m.getTargetY(), teamName)){
+      if (m.getName().startsWith("Move") && !gp.isNeutral(m.getTargetX(), m.getTargetY())){
         continue;
       }
 

@@ -15,11 +15,12 @@ import net.ddns.whomagoo.laserchess.game.*;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static javax.swing.UIManager.get;
 
-public class GameView extends GridPane{
+public class GameView extends GridPane {
   private Board gameBoard;
   private int pieceSize = 80;
   private int padding = 15;
