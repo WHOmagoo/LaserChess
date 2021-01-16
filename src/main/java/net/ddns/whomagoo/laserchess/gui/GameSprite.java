@@ -1,15 +1,17 @@
 package net.ddns.whomagoo.laserchess.gui;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GameSprite extends Group {
   private GameView contained;
