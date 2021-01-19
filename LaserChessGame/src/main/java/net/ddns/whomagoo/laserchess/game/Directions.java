@@ -1,8 +1,5 @@
 package net.ddns.whomagoo.laserchess.game;
 
-import javafx.util.Pair;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,20 +46,20 @@ public class Directions{
     return clockwise ? clockwise(curDirection) : counterClockwise(curDirection);
   }
 
-  public static Pair<Integer, Integer> getLocationInDirection(Pair<Integer, Integer> loc, String direction){
+  public static Location getLocationInDirection(Location loc, String direction){
     return getLocationInDirection(loc, direction, 1);
   }
 
-  public static Pair<Integer, Integer> getLocationInDirection(Pair<Integer, Integer> loc, String direction, int distance){
+  public static Location getLocationInDirection(Location loc, String direction, int distance){
     switch (direction){
       case NORTH:
-        return new Pair<>(loc.getKey(), loc.getValue() + distance);
+        return new Location(loc.getKey(), loc.getValue() + distance);
       case SOUTH:
-        return new Pair<>(loc.getKey(), loc.getValue() - distance);
+        return new Location(loc.getKey(), loc.getValue() - distance);
       case WEST:
-        return new Pair<>(loc.getKey() - distance, loc.getValue());
+        return new Location(loc.getKey() - distance, loc.getValue());
       case EAST:
-        return new Pair<>(loc.getKey() + distance, loc.getValue());
+        return new Location(loc.getKey() + distance, loc.getValue());
       default:
         return null;
     }

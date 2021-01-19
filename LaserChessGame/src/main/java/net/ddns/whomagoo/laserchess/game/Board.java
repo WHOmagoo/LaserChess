@@ -5,9 +5,10 @@ import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.Hypercube;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
-import javafx.util.Pair;
 import java.io.Serializable;
 import java.util.*;
+
+;
 
 public class Board implements Serializable {
 
@@ -104,7 +105,7 @@ public class Board implements Serializable {
     List<Move> legalMoves = gamePiece.getValidMoves(possibleMoves, this);
 
     if(!hasTeleported && hasNeighbor(gamePiece.xPos(), gamePiece.yPos(), 4, 4)){
-      legalMoves.add(new Move("Move " + Directions.getDirection(gamePiece.xPos(), gamePiece.yPos(), 4, 4), new Pair<>(4,4), gamePiece));
+      legalMoves.add(new Move("Move " + Directions.getDirection(gamePiece.xPos(), gamePiece.yPos(), 4, 4), new Location(4,4), gamePiece));
     }
 
     return legalMoves;
@@ -133,17 +134,17 @@ public class Board implements Serializable {
 
   private void respawnPiece(Piece pieceToMove){
     hasTeleported = true;
-    ArrayList<Pair<Integer, Integer>> possibleMoves = new ArrayList<>(sizeX * sizeY);
+    ArrayList<Location> possibleMoves = new ArrayList<>(sizeX * sizeY);
 
     for(int x = 0; x < sizeX; x++){
       for(int y = 0; y < sizeY; y++){
         if(isEmpty(x,y)){
-          possibleMoves.add(new Pair<>(x,y));
+          possibleMoves.add(new Location(x,y));
         }
       }
     }
 
-    Pair<Integer, Integer> newLocation = possibleMoves.get((int) (Math.random() * possibleMoves.size()));
+    Location newLocation = possibleMoves.get((int) (Math.random() * possibleMoves.size()));
     setPiece(newLocation.getKey(), newLocation.getValue(), pieceToMove);
 
     int rotationCount = (int) (Math.random() * 4);

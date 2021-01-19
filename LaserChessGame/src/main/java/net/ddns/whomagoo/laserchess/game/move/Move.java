@@ -1,8 +1,8 @@
 package net.ddns.whomagoo.laserchess.game.move;
 
-import javafx.util.Pair;
 import net.ddns.whomagoo.laserchess.game.Board;
 import net.ddns.whomagoo.laserchess.game.Directions;
+import net.ddns.whomagoo.laserchess.game.Location;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class Move {
       }
   }
 
-  public Move(String name, Pair<Integer, Integer> targetLoc, Piece source){
+  public Move(String name, Location targetLoc, Piece source){
     this(name, targetLoc.getKey(), targetLoc.getValue(), source);
   }
 
@@ -80,7 +80,7 @@ public class Move {
   public static List<Move> movingMoves(int xPos, int yPos, Piece source){
     List<Move> result = new ArrayList<>();
 
-    Pair<Integer, Integer> loc = new Pair<Integer, Integer>(xPos, yPos);
+    Location loc = new Location(xPos, yPos);
     result.add(new Move(Move.MOVE_NORTH, Directions.getLocationInDirection(loc, Directions.NORTH), source));
     result.add(new Move(Move.MOVE_SOUTH, Directions.getLocationInDirection(loc, Directions.SOUTH), source));
     result.add(new Move(Move.MOVE_EAST, Directions.getLocationInDirection(loc, Directions.EAST), source));
@@ -98,7 +98,7 @@ public class Move {
 
   public static List<Move> allMoves(int xPos, int yPos, Piece source){
     List<Move> result = defaultMoves(xPos, yPos, source);
-    Pair<Integer, Integer> fireLoc = Directions.getLocationInDirection(new Pair<>(source.xPos(), source.yPos()), source.facing(), 2);
+    Location fireLoc = Directions.getLocationInDirection(new Location(source.xPos(), source.yPos()), source.facing(), 2);
     result.add(new Move(Move.FIRE_LASER, fireLoc.getKey(), fireLoc.getValue(), source));
     return result;
   }

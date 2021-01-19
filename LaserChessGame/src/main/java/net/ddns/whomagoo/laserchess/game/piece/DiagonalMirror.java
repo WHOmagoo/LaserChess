@@ -1,10 +1,8 @@
 package net.ddns.whomagoo.laserchess.game.piece;
 
-import net.ddns.whomagoo.laserchess.game.Board;
 import net.ddns.whomagoo.laserchess.game.Directions;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

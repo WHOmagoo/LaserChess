@@ -1,7 +1,5 @@
 package net.ddns.whomagoo.laserchess.game;
 
-import javafx.util.Pair;
-
 import java.util.Objects;
 
 public class LaserSegment {
@@ -11,7 +9,7 @@ public class LaserSegment {
   int locX;
   int locY;
 
-  public LaserSegment(String directionSource, String directionOut, Pair<Integer, Integer> loc) {
+  public LaserSegment(String directionSource, String directionOut, Location loc) {
     this.directionSource = directionSource;
     this.directionOut = directionOut;
     locX = loc.getKey();
