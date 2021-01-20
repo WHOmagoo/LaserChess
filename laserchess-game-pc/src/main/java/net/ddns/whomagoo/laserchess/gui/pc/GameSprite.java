@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+import net.ddns.whomagoo.laserchess.resources.ResourceGetter;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,8 +32,8 @@ public class GameSprite extends Group {
     Gson g = new Gson();
 
     ClassLoader cl = GameSprite.class.getClassLoader();
-    InputStream is = cl.getResourceAsStream("TeamColors.json");
-    InputStreamReader isr = new InputStreamReader(is);
+    InputStream is = ResourceGetter.getResourceAsStream(ResourceGetter.colorConfig);
+    InputStreamReader isr = new InputStreamReader(ResourceGetter.getResourceAsStream(ResourceGetter.colorConfig));
 //      FileReader fr = new FileReader("assets/TeamColors.json");
 
     Map<String, Map<String, Map<String, String>>> json = (Map<String, Map<String, Map<String, String>>>) g.fromJson(isr, Map.class);

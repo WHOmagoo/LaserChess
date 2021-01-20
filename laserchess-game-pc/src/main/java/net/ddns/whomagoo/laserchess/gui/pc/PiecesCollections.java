@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.Shape;
 import javafx.util.Pair;
+import net.ddns.whomagoo.laserchess.resources.ResourceGetter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -65,7 +66,7 @@ public class PiecesCollections {
       try {
 
         ClassLoader cl = PiecesCollections.class.getClassLoader();
-        InputStream is = cl.getResourceAsStream(name + ".svg");
+        InputStream is = ResourceGetter.getResourceAsStream(name + ".svg");
         Document doc = getDocument(is);
         //Image i = loadImage(doc, "TeamB").snapshot(getSnapshotParams(), null);
         svgDocs.put(name, doc);

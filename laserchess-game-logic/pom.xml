@@ -2,22 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>LaserChess</artifactId>
+    <artifactId>laserchess</artifactId>
     <groupId>net.ddns.whomagoo.laserchess</groupId>
     <version>v1.1</version>
   </parent>
 
-  <groupId>net.ddns.whomagoo.laserchess.game</groupId>
-  <artifactId>LaserChessGame</artifactId>
-  <version>v1.1</version>
-
-  <name>LaserChessGame</name>
+  <artifactId>laserchess-game-logic</artifactId>
+  <packaging>jar</packaging>
   <url>https://github.com/WHOmagoo/LaserChess</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>9</maven.compiler.source>
     <maven.compiler.target>9</maven.compiler.target>
+    <maven.compiler.verbose>true</maven.compiler.verbose>
   </properties>
 
   <dependencies>
@@ -30,5 +28,19 @@
   </dependencies>
 
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>net.ddns.whomagoo.laserchess.game.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
