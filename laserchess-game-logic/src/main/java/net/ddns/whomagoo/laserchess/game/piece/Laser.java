@@ -9,7 +9,7 @@ import java.util.List;
 public class Laser extends GamePiece {
   public Laser(String teamName){
     super(teamName);
-    this.typeName = "Laser";
+    this.typeName = PieceNames.Laser;
   }
 
   @Override

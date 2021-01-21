@@ -12,8 +12,8 @@ public class LaserSegment {
   public LaserSegment(String directionSource, String directionOut, Location loc) {
     this.directionSource = directionSource;
     this.directionOut = directionOut;
-    locX = loc.getKey();
-    locY = loc.getValue();
+    locX = loc.getX();
+    locY = loc.getY();
   }
 
   public String getDirectionSource() {
@@ -45,17 +45,11 @@ public class LaserSegment {
 
   @Override
   public boolean equals(Object obj){
-    if(this == obj){
-      return true;
-    }
+    if(this == obj) return true;
 
-    if(obj == null){
-      return false;
-    }
+    if(obj == null) return false;
 
-    if(!(obj instanceof  LaserSegment)){
-      return false;
-    }
+    if(!(obj instanceof  LaserSegment)) return false;
 
     LaserSegment seg = (LaserSegment) obj;
 

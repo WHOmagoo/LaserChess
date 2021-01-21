@@ -10,7 +10,7 @@ import java.util.List;
 public class BeamSplitter extends GamePiece {
   public BeamSplitter(String teamName) {
     super(teamName);
-    typeName = "Beam Splitter";
+    typeName = PieceNames.BeamSplitter;
   }
 
   @Override

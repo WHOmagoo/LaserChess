@@ -5,7 +5,7 @@ import net.ddns.whomagoo.laserchess.game.move.Move;
 
 import java.util.List;
 
-public interface Piece {
+public interface Piece extends Hittable{
   public String teamName();
 
   public String typeName();

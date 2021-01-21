@@ -11,7 +11,7 @@ import java.util.List;
 public class Hypercube extends GamePiece {
   public Hypercube(String teamName) {
     super(teamName);
-    typeName = "Hypercube";
+    typeName = PieceNames.Hypercube;
   }
 
   @Override

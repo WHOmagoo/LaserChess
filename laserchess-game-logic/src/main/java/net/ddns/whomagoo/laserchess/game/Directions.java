@@ -53,13 +53,13 @@ public class Directions{
   public static Location getLocationInDirection(Location loc, String direction, int distance){
     switch (direction){
       case NORTH:
-        return new Location(loc.getKey(), loc.getValue() + distance);
+        return new Location(loc.getX(), loc.getY() + distance);
       case SOUTH:
-        return new Location(loc.getKey(), loc.getValue() - distance);
+        return new Location(loc.getX(), loc.getY() - distance);
       case WEST:
-        return new Location(loc.getKey() - distance, loc.getValue());
+        return new Location(loc.getX() - distance, loc.getY());
       case EAST:
-        return new Location(loc.getKey() + distance, loc.getValue());
+        return new Location(loc.getX() + distance, loc.getY());
       default:
         return null;
     }

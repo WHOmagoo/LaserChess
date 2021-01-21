@@ -9,7 +9,7 @@ import java.util.List;
 public class HorizontalMirror extends GamePiece{
   public HorizontalMirror(String teamName) {
     super(teamName);
-    typeName = "Horizontal Mirror";
+    typeName = PieceNames.HorizontalMirror;
   }
 
   @Override

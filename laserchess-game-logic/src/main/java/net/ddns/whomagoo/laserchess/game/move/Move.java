@@ -49,7 +49,7 @@ public class Move {
   }
 
   public Move(String name, Location targetLoc, Piece source){
-    this(name, targetLoc.getKey(), targetLoc.getValue(), source);
+    this(name, targetLoc.getX(), targetLoc.getY(), source);
   }
 
   public Piece getSource(){
@@ -99,7 +99,7 @@ public class Move {
   public static List<Move> allMoves(int xPos, int yPos, Piece source){
     List<Move> result = defaultMoves(xPos, yPos, source);
     Location fireLoc = Directions.getLocationInDirection(new Location(source.xPos(), source.yPos()), source.facing(), 2);
-    result.add(new Move(Move.FIRE_LASER, fireLoc.getKey(), fireLoc.getValue(), source));
+    result.add(new Move(Move.FIRE_LASER, fireLoc.getX(), fireLoc.getY(), source));
     return result;
   }
 

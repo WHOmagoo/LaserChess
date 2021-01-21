@@ -9,7 +9,7 @@ import java.util.List;
 public class TriangularMirror extends GamePiece{
   public TriangularMirror(String teamName) {
     super(teamName);
-    typeName = "Triangular Mirror";
+    typeName = PieceNames.TriangularMirror;
   }
 
   @Override

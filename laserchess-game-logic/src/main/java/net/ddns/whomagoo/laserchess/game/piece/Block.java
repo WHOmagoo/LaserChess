@@ -12,7 +12,7 @@ public class Block extends GamePiece {
 
   public Block(String teamName) {
     super(teamName);
-    super.typeName = "Block";
+    super.typeName = PieceNames.Block;
   }
 
   @Override

@@ -145,7 +145,7 @@ public class Board implements Serializable {
     }
 
     Location newLocation = possibleMoves.get((int) (Math.random() * possibleMoves.size()));
-    setPiece(newLocation.getKey(), newLocation.getValue(), pieceToMove);
+    setPiece(newLocation.getX(), newLocation.getY(), pieceToMove);
 
     int rotationCount = (int) (Math.random() * 4);
     for(int i = 0; i < rotationCount; i++) {

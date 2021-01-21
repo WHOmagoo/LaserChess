@@ -27,7 +27,7 @@ public class FireLaser implements MoveDoer {
   }
 
   private void propagateLaser(Location loc, String directionPrevExit, Board board, HashSet<LaserSegment> laserSegments){
-    Piece p = board.getPiece(loc.getKey(), loc.getValue());
+    Piece p = board.getPiece(loc.getX(), loc.getY());
 
     if(p == null){
 
@@ -39,7 +39,7 @@ public class FireLaser implements MoveDoer {
       }
 
       Location newLoc = Directions.getLocationInDirection(loc, directionPrevExit);
-      if(board.inBounds(newLoc.getKey(), newLoc.getValue())){
+      if(board.inBounds(newLoc.getX(), newLoc.getY())){
         propagateLaser(newLoc, directionPrevExit, board, laserSegments);
       }
     } else {
@@ -50,7 +50,7 @@ public class FireLaser implements MoveDoer {
         LaserSegment ls = new LaserSegment(Directions.opposite(directionPrevExit), directionResult, loc);
         if(laserSegments.add(ls) && !Directions.DESTROYED.equals(directionResult)){
           Location newLoc = Directions.getLocationInDirection(new Location(p.xPos(), p.yPos()), directionResult);
-          if(board.inBounds(newLoc.getKey(), newLoc.getValue())){
+          if(board.inBounds(newLoc.getX(), newLoc.getY())){
             propagateLaser(newLoc, directionResult, board, laserSegments);
           }
         }

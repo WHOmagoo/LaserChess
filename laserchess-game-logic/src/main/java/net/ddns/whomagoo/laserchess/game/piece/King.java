@@ -11,7 +11,7 @@ import java.util.List;
 public class King extends GamePiece{
   public King(String teamName){
     super(teamName);
-    this.typeName = "King";
+    this.typeName = PieceNames.King;
   }
 
   @Override

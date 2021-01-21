@@ -10,7 +10,7 @@ public class DiagonalMirror extends GamePiece{
 
   public DiagonalMirror(String teamName) {
     super(teamName);
-    typeName = "Diagonal Mirror";
+    typeName = PieceNames.DiagonalMirror;
   }
 
   @Override

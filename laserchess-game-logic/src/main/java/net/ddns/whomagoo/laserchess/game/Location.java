@@ -10,7 +10,7 @@ public class Location {
     this.y = y;
   }
 
-  public int getKey() {
+  public int getX() {
     return x;
   }
 
@@ -18,7 +18,7 @@ public class Location {
     this.x = x;
   }
 
-  public int getValue() {
+  public int getY() {
     return y;
   }
 

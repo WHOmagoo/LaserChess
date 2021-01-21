@@ -4,10 +4,13 @@ import net.ddns.whomagoo.laserchess.game.Board;
 import net.ddns.whomagoo.laserchess.game.Directions;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public abstract class GamePiece implements Piece{
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+public abstract class GamePiece implements Piece {
   protected String teamName = "";
 
   protected String typeName = "";
@@ -84,4 +87,31 @@ public abstract class GamePiece implements Piece{
     return result;
   }
 
+  @Override
+  public int hashCode() {
+    Object[] items = new Object[]{
+        teamName(),
+        typeName(),
+        facing(),
+        xPos(),
+        yPos()};
+
+    return Arrays.asList(items).hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == this) return true;
+    if(obj == null) return false;
+    if(obj.hashCode() != this.hashCode()) return false;
+    if(!(obj instanceof GamePiece)) return false;
+
+    GamePiece gamePiece = (GamePiece) obj;
+
+    return Objects.equals(gamePiece.teamName(), teamName())
+        && Objects.equals(gamePiece.typeName(), typeName())
+        && Objects.equals(gamePiece.facing(), facing())
+        && gamePiece.xPos() == xPos()
+        && gamePiece.yPos() == yPos();
+  }
 }
