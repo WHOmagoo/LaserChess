@@ -5,7 +5,7 @@ import net.ddns.whomagoo.laserchess.game.move.Move;
 
 import java.util.List;
 
-public interface Piece extends Hittable{
+public interface Piece {
   public String teamName();
 
   public String typeName();
@@ -28,7 +28,7 @@ public interface Piece extends Hittable{
 
   public List<Move> getValidMoves(List<Move> moves, Board gp);
 
-  public abstract List<Move> getAllPossibleMoves();
+  public List<Move> getAllPossibleMoves();
 
   void rotate(boolean clockwise);
 }
