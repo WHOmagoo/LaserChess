@@ -247,7 +247,7 @@ public class GameView extends GridPane {
   }
 
   private Node makeTextBox(String x) {
-    Font f = Font.font("Impact", FontWeight.EXTRA_LIGHT, FontPosture.REGULAR, 12);
+    Font f = Font.font("Helvetica", FontWeight.BOLD, FontPosture.REGULAR, 14);
     Text t = new Text();
     t.setText(x);
     t.setFont(f);
