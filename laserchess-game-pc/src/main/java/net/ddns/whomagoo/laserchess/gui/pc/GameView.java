@@ -12,6 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import net.ddns.whomagoo.laserchess.game.Board;
 import net.ddns.whomagoo.laserchess.game.LaserSegment;
@@ -165,17 +169,17 @@ public class GameView extends GridPane {
     };
 
     //Add row and column constraints to maintain sizing correctly
-    getRowConstraints().add(buttonsGridRow);
     for(int i = 0; i < gameBoard.getSizeY(); i++){
-      getRowConstraints().add(showingRows);
       getRowConstraints().add(buttonsGridRow);
+      getRowConstraints().add(showingRows);
     }
+    getRowConstraints().add(buttonsGridRow);
 
-    getColumnConstraints().add(buttonsGridCol);
     for(int i = 0; i < gameBoard.sizeX; i++){
-      getColumnConstraints().add(piecesGrid);
       getColumnConstraints().add(buttonsGridCol);
+      getColumnConstraints().add(piecesGrid);
     }
+    getColumnConstraints().add(buttonsGridCol);
 
     int vCount = 0;
 
@@ -212,6 +216,18 @@ public class GameView extends GridPane {
     GameView current = this;
 
     setOnMouseClicked(onClick);
+
+    for(int x = 0; x < gameBoard.sizeX; x++){
+      Node t = makeTextBox(String.valueOf((char)('a' + x)));
+      Node a = makeRowAnchorPane(t);
+      add(a, x * 2 + 1,getRowCount() - 2);
+    }
+
+    for(int y = 0; y < gameBoard.getSizeY(); y++){
+      Node t = makeTextBox(String.valueOf(y));
+      Node a = makeColAnchorPane(t);
+      add(a, getColumnCount() - 2,y * 2 + 1);
+    }
 //    setHgap(15);
 //    setVgap(15);
 
@@ -228,6 +244,37 @@ public class GameView extends GridPane {
 ////        setElement(x, y, p);
 ////      }
 ////    }
+  }
+
+  private Node makeTextBox(String x) {
+    Font f = Font.font("Impact", FontWeight.EXTRA_LIGHT, FontPosture.REGULAR, 12);
+    Text t = new Text();
+    t.setText(x);
+    t.setFont(f);
+
+
+
+    return t;
+  }
+
+  private static final double anchorPadding = 2.0;
+
+  private Node makeColAnchorPane(Node child){
+    AnchorPane ap = new AnchorPane();
+    AnchorPane.setTopAnchor(child, anchorPadding);
+    AnchorPane.setRightAnchor(child, anchorPadding);
+    ap.getChildren().add(child);
+
+    return ap;
+  }
+
+  private Node makeRowAnchorPane(Node child){
+    AnchorPane ap = new AnchorPane();
+    AnchorPane.setBottomAnchor(child, anchorPadding);
+    AnchorPane.setLeftAnchor(child, anchorPadding);
+    ap.getChildren().add(child);
+
+    return ap;
   }
 
   private Mode getMode(){
