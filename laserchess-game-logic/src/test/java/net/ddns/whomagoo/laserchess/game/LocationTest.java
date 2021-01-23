@@ -1,28 +1,33 @@
 package net.ddns.whomagoo.laserchess.game;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+;
+;
 
 public class LocationTest {
 
   @Test
   public void testConstructor(){
     Location l = new Location(0,0);
-    Assert.assertNotNull(l);
+    assertNotNull(l);
   }
 
   @Test
   public void testLocationX(){
     Location l = new Location(5,0);
 
-    Assert.assertEquals(5, l.getX());
+    assertEquals(5, l.getX());
   }
 
   @Test
   public void testLocationY(){
     Location l = new Location(0,5);
 
-    Assert.assertEquals(5, l.getY());
+    assertEquals(5, l.getY());
   }
 
   @Test
@@ -30,7 +35,7 @@ public class LocationTest {
     Location l = new Location(0,1);
     l.setX(2);
 
-    Assert.assertEquals(2, l.getX());
+    assertEquals(2, l.getX());
   }
 
   @Test
@@ -38,7 +43,7 @@ public class LocationTest {
     Location l = new Location(0,1);
     l.setY(2);
 
-    Assert.assertEquals(2, l.getY());
+    assertEquals(2, l.getY());
   }
 
 

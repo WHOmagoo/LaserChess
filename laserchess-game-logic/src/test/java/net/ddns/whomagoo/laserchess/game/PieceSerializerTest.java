@@ -6,8 +6,11 @@ import net.ddns.whomagoo.laserchess.game.piece.Block;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.GamePieceDeserializer;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+;
 
 public class PieceSerializerTest {
 
@@ -29,6 +32,6 @@ public class PieceSerializerTest {
 
     Piece p = gson.fromJson(json, GamePiece.class);
 
-    Assert.assertEquals(b, p);
+    assertEquals(b, p);
   }
 }

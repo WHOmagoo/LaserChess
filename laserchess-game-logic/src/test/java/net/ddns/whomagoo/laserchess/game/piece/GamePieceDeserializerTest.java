@@ -3,49 +3,46 @@ package net.ddns.whomagoo.laserchess.game.piece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.ddns.whomagoo.laserchess.game.Directions;
-import net.ddns.whomagoo.laserchess.game.move.Move;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import org.junit.rules.ExpectedException;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+;
 
 public class GamePieceDeserializerTest {
 
   @Test
   public void testDefaultDeserializer() {
     GamePieceDeserializer gpd = GamePieceDeserializer.defaultDeserializer();
-    Assertions.assertNotNull(gpd);
+    assertNotNull(gpd);
 
-    Assertions.assertEquals(8, gpd.bindings.size());
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.BeamSplitter));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.Block));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.DiagonalMirror));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.HorizontalMirror));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.Hypercube));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.King));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.Laser));
-    Assertions.assertTrue(gpd.bindings.containsKey(PieceNames.TriangularMirror));
-    Assertions.assertEquals(BeamSplitter.class, gpd.bindings.get(PieceNames.BeamSplitter));
-    Assertions.assertEquals(Block.class, gpd.bindings.get(PieceNames.Block));
-    Assertions.assertEquals(DiagonalMirror.class, gpd.bindings.get(PieceNames.DiagonalMirror));
-    Assertions.assertEquals(HorizontalMirror.class, gpd.bindings.get(PieceNames.HorizontalMirror));
-    Assertions.assertEquals(Hypercube.class, gpd.bindings.get(PieceNames.Hypercube));
-    Assertions.assertEquals(King.class, gpd.bindings.get(PieceNames.King));
-    Assertions.assertEquals(Laser.class, gpd.bindings.get(PieceNames.Laser));
-    Assertions.assertEquals(TriangularMirror.class, gpd.bindings.get(PieceNames.TriangularMirror));
+    assertEquals(8, gpd.bindings.size());
+    assertTrue(gpd.bindings.containsKey(PieceNames.BeamSplitter));
+    assertTrue(gpd.bindings.containsKey(PieceNames.Block));
+    assertTrue(gpd.bindings.containsKey(PieceNames.DiagonalMirror));
+    assertTrue(gpd.bindings.containsKey(PieceNames.HorizontalMirror));
+    assertTrue(gpd.bindings.containsKey(PieceNames.Hypercube));
+    assertTrue(gpd.bindings.containsKey(PieceNames.King));
+    assertTrue(gpd.bindings.containsKey(PieceNames.Laser));
+    assertTrue(gpd.bindings.containsKey(PieceNames.TriangularMirror));
+    assertEquals(BeamSplitter.class, gpd.bindings.get(PieceNames.BeamSplitter));
+    assertEquals(Block.class, gpd.bindings.get(PieceNames.Block));
+    assertEquals(DiagonalMirror.class, gpd.bindings.get(PieceNames.DiagonalMirror));
+    assertEquals(HorizontalMirror.class, gpd.bindings.get(PieceNames.HorizontalMirror));
+    assertEquals(Hypercube.class, gpd.bindings.get(PieceNames.Hypercube));
+    assertEquals(King.class, gpd.bindings.get(PieceNames.King));
+    assertEquals(Laser.class, gpd.bindings.get(PieceNames.Laser));
+    assertEquals(TriangularMirror.class, gpd.bindings.get(PieceNames.TriangularMirror));
   }
 
   @Test
   public void testSetBinding() {
     GamePieceDeserializer gpd = new GamePieceDeserializer();
-    Assertions.assertEquals(0, gpd.bindings.size());
+    assertEquals(0, gpd.bindings.size());
 
     gpd.setBinding("Test", GamePiece.class);
 
-    Assertions.assertEquals(1, gpd.bindings.size());
+    assertEquals(1, gpd.bindings.size());
   }
 
   @Test
@@ -103,7 +100,7 @@ public class GamePieceDeserializerTest {
 
     String json = "{\"teamName\":\"TeamA\",\"typeName\":\"Random\",\"facing\":\"North\",\"xPos\":12,\"yPos\":7}";
 
-    Assertions.assertNull(gson.fromJson(json, GamePiece.class));
+    assertNull(gson.fromJson(json, GamePiece.class));
 
   }
   
@@ -123,6 +120,6 @@ public class GamePieceDeserializerTest {
 
     Piece newPiece = gson.fromJson(json, GamePiece.class);
 
-    Assertions.assertEquals(p, newPiece);
+    assertEquals(p, newPiece);
   }
 }
