@@ -7,11 +7,11 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -34,6 +34,7 @@ public class GameView extends GridPane {
   private HashMap<Pair<Integer, Integer>, PieceView> piecesDisplayed;
   private HashMap<Node, Pair<Integer, Integer>> pieceLocation;
   private HashMap<Node, Pair<Integer, Integer>> buttons;
+  private HashMap<Node, Pair<Integer, Integer>> staticOverlayed;
   private Collection<Node> lasersShowing;
   private Collection<LaserSegment> laserPath;
 
@@ -59,29 +60,23 @@ public class GameView extends GridPane {
   }
 
   public Pair<Integer, Integer> getLocation(Node n){
-    if(pieceLocation.containsKey(n)){
-      return pieceLocation.get(n);
-    }
-
-    if(buttons.containsKey(n)){
-      return buttons.get(n);
-    }
-
-    if(overlayed.containsKey(n)){
-      return overlayed.get(n);
-    }
-
+    if(pieceLocation.containsKey(n)) return pieceLocation.get(n);
+    if(buttons.containsKey(n)) return buttons.get(n);
+    if(overlayed.containsKey(n)) return overlayed.get(n);
+    if(staticOverlayed.containsKey(n)) return staticOverlayed.get(n);
     return null;
   }
 
   public boolean isDisplaying(Node n){
     return
-        pieceLocation.containsKey(n) ||
-            buttons.containsKey(n) ||
-            overlayed.containsKey(n);
+        pieceLocation.containsKey(n)
+            || buttons.containsKey(n)
+            || overlayed.containsKey(n)
+            || staticOverlayed.containsKey(n);
   }
 
   private void initGameBoard(Board gameBoard){
+    staticOverlayed = new HashMap<>();
     locationToOverlayed = new HashMap<>();
     overlayed = new HashMap<>();
     piecesDisplayed = new HashMap<>();
@@ -132,41 +127,7 @@ public class GameView extends GridPane {
     buttonsGridCol.setPercentWidth(0);
     buttonsGridCol.setHgrow(Priority.NEVER);
 
-    onClick = mouseEvent -> {
-      Node target = mouseEvent.getPickResult().getIntersectedNode();
-
-      int selectedX;
-      int selectedY;
-
-//      if(items.containsKey(target)){
-      if(isDisplaying(target)){
-
-
-        Pair<Integer, Integer> loc = getLocation(target);
-        selectedX = loc.getKey();
-        selectedY = loc.getValue();
-
-        System.out.println("Clicked on " + selectedX + " " + selectedY);
-
-        switch (getMode()){
-          case ChoosePiece:
-            pieceChosen(selectedX, selectedY);
-            break;
-          case ChooseMove:
-            moveChosen(selectedX, selectedY);
-            break;
-          case ConfirmMove:
-            moveConfirmed(selectedX, selectedY);
-            break;
-          case Waiting:
-          default:
-            clearOverlayed();
-            return;
-        }
-      } else {
-        System.out.println(target + " not found in items");
-      }
-    };
+    onClick = new OnClickHandler();
 
     //Add row and column constraints to maintain sizing correctly
     for(int i = 0; i < gameBoard.getSizeY(); i++){
@@ -185,17 +146,16 @@ public class GameView extends GridPane {
 
     for(int x = 1; x < totalSquaresX; x+=2){
       for(int y = 1; y < totalSquaresY; y+=2){
-        Button b = new Button();
-        b.prefWidthProperty().bind(getCellWidthProp(x,y));
-        b.prefHeightProperty().bind(getCellHeightProp(x,y));
+        Rectangle b = new Rectangle();
+        b.widthProperty().bind(getCellWidthProp(x,y));
+        b.heightProperty().bind(getCellHeightProp(x,y));
 
         Color c = Color.rgb(181, 136, 99);
         if((x / 2 + y / 2) % 2 == 0){
           c = Color.rgb(240, 217, 181);
         }
 
-        b.setBackground(new Background(new BackgroundFill(c, null, null)));
-        b.setOnMouseClicked(onClick);
+        b.setFill(c);
 
         buttons.put(b, new Pair<>(x, y));
         super.add(b, x, y);
@@ -217,17 +177,7 @@ public class GameView extends GridPane {
 
     setOnMouseClicked(onClick);
 
-    for(int x = 0; x < gameBoard.sizeX; x++){
-      Node t = makeTextBox(String.valueOf((char)('a' + x)));
-      Node a = makeRowAnchorPane(t);
-      add(a, x * 2 + 1,getRowCount() - 2);
-    }
-
-    for(int y = 0; y < gameBoard.getSizeY(); y++){
-      Node t = makeTextBox(String.valueOf(y));
-      Node a = makeColAnchorPane(t);
-      add(a, getColumnCount() - 2,y * 2 + 1);
-    }
+    addColumnIndicators(gameBoard.sizeX, gameBoard.getSizeY());
 //    setHgap(15);
 //    setVgap(15);
 
@@ -244,6 +194,26 @@ public class GameView extends GridPane {
 ////        setElement(x, y, p);
 ////      }
 ////    }
+  }
+
+  private void addColumnIndicators(int sizeX, int sizeY) {
+    for(int x = 0; x < sizeX; x++){
+      Node t = makeTextBox(String.valueOf((char)('a' + x)));
+      Node a = makeRowAnchorPane(t);
+      int y = getRowCount() - 2;
+      int x1 = x * 2 + 1;
+      add(a, x1, y);
+      staticOverlayed.put(a, new Pair<>(x1, y));
+    }
+
+    for(int y = 0; y < sizeY; y++){
+      Node t = makeTextBox(String.valueOf(y + 1));
+      Node a = makeColAnchorPane(t);
+      int y1 = y * 2 + 1;
+      int x = getColumnCount() - 2;
+      add(a, x, y1);
+      staticOverlayed.put(a, new Pair<>(x, y1));
+    }
   }
 
   private Node makeTextBox(String x) {
@@ -438,8 +408,8 @@ public class GameView extends GridPane {
       super.add(node, x, y);
 
       Pair<Integer, Integer> loc = new Pair<>(x, y);
-      //items.put(node, loc);
-      //itemsInLocation.get(loc).add(node);
+//      items.put(node, loc);
+//      itemsInLocation.get(loc).add(node);
 
       if(node  instanceof ImageView){
         ImageView iv = (ImageView) node;
@@ -623,5 +593,44 @@ public class GameView extends GridPane {
 
   private Pair<Integer, Integer> viewLocationToGameLocation(int viewX, int viewY){
     return isValidPieceLocation(viewX, viewY) ? new Pair<>(viewX / 2, gameBoard.getSizeY() - viewY / 2 - 1) : null;
+  }
+
+  private class OnClickHandler implements EventHandler<MouseEvent> {
+
+    public void handle(MouseEvent mouseEvent){
+        Node target = mouseEvent.getPickResult().getIntersectedNode();
+
+        int selectedX;
+        int selectedY;
+
+  //      if(items.containsKey(target)){
+        if(isDisplaying(target)){
+
+
+          Pair<Integer, Integer> loc = getLocation(target);
+          selectedX = loc.getKey();
+          selectedY = loc.getValue();
+
+          System.out.println("Clicked on " + selectedX + " " + selectedY);
+
+          switch (getMode()){
+            case ChoosePiece:
+              pieceChosen(selectedX, selectedY);
+              break;
+            case ChooseMove:
+              moveChosen(selectedX, selectedY);
+              break;
+            case ConfirmMove:
+              moveConfirmed(selectedX, selectedY);
+              break;
+            case Waiting:
+            default:
+              clearOverlayed();
+              return;
+          }
+        } else {
+          System.out.println(target + " not found in items");
+        }
+      };
   }
 }

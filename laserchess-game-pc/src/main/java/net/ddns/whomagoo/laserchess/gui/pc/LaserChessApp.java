@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-public class LaserChess extends Application {
+public class LaserChessApp extends Application {
 
   public static void main(String[] args) {
     launch(args);
