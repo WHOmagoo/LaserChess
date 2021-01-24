@@ -1,11 +1,10 @@
 package net.ddns.whomagoo.laserchess.game;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.ddns.whomagoo.laserchess.game.piece.Block;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
-import net.ddns.whomagoo.laserchess.game.piece.GamePieceDeserializer;
 import net.ddns.whomagoo.laserchess.game.piece.Piece;
+import net.ddns.whomagoo.laserchess.game.piece.PieceDeserializer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +15,7 @@ public class PieceSerializerTest {
 
   @Test
   public void testBlockToJson(){
-    GsonBuilder gsonBuilder = new GsonBuilder();
-    gsonBuilder.registerTypeAdapter(GamePiece.class, GamePieceDeserializer.defaultDeserializer());
-    Gson gson = gsonBuilder.create();
+    Gson gson = PieceDeserializer.makeGsonWithTypeAdapter();
 
     Block b = new Block("TeamA");
     b.setXPos(12);

@@ -1,7 +1,6 @@
 package net.ddns.whomagoo.laserchess.game.piece;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.ddns.whomagoo.laserchess.game.Directions;
 import org.junit.jupiter.api.Test;
 
@@ -9,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 ;
 
-public class GamePieceDeserializerTest {
+class PieceDeserializerTest {
 
   @Test
-  public void testDefaultDeserializer() {
-    GamePieceDeserializer gpd = GamePieceDeserializer.defaultDeserializer();
+  void testDefaultDeserializer() {
+    PieceDeserializer gpd = PieceDeserializer.defaultDeserializer();
     assertNotNull(gpd);
 
     assertEquals(8, gpd.bindings.size());
@@ -36,79 +35,79 @@ public class GamePieceDeserializerTest {
   }
 
   @Test
-  public void testSetBinding() {
-    GamePieceDeserializer gpd = new GamePieceDeserializer();
+  void testSetBinding() {
+    PieceDeserializer gpd = new PieceDeserializer(null);
     assertEquals(0, gpd.bindings.size());
 
-    gpd.setBinding("Test", GamePiece.class);
+    String type = "Test";
+    gpd.setBinding(type, GamePiece.class);
 
     assertEquals(1, gpd.bindings.size());
+    assertTrue(gpd.bindings.containsKey(type));
   }
 
   @Test
-  public void testDeserializeBeamSplitter() {
+  void testDeserializeBeamSplitter() {
     GamePiece b = new BeamSplitter("TeamA");
     testDeserialize(b);
   }
 
   @Test
-  public void testDeserializeGamePiece() {
+  void testDeserializeGamePiece() {
     GamePiece b = new Block("TeamA");
     testDeserialize(b);
   }
   @Test
-  public void testDeserializeDiagonalMirror() {
+  void testDeserializeDiagonalMirror() {
     GamePiece b = new DiagonalMirror("TeamA");
     testDeserialize(b);
   }
   
   @Test
-  public void testDeserializeHorizontalMirror() {
+  void testDeserializeHorizontalMirror() {
     GamePiece b = new HorizontalMirror("TeamA");
     testDeserialize(b);
   }
   
   @Test
-  public void testDeserializeHypercube() {
+  void testDeserializeHypercube() {
     GamePiece b = new Hypercube("TeamA");
     testDeserialize(b);
   }
   
   @Test
-  public void testDeserializeKing() {
+  void testDeserializeKing() {
     GamePiece b = new King("TeamA");
     testDeserialize(b);
   }
   
   @Test
-  public void testDeserializeLaser() {
+  void testDeserializeLaser() {
     GamePiece b = new Laser("TeamA");
     testDeserialize(b);
   }
   
   @Test
-  public void testDeserializeTriangularMirror() {
+  void testDeserializeTriangularMirror() {
     GamePiece b = new TriangularMirror("TeamA");
     testDeserialize(b);
   }
   
   @Test
-  public void testDeserializeOtherType() {
-    GsonBuilder gsonBuilder = new GsonBuilder();
-    gsonBuilder.registerTypeAdapter(GamePiece.class, GamePieceDeserializer.defaultDeserializer());
-    Gson gson = gsonBuilder.create();
+  void testDeserializeOtherType() {
+    Gson gson = PieceDeserializer.makeGsonWithTypeAdapter();
 
     String json = "{\"teamName\":\"TeamA\",\"typeName\":\"Random\",\"facing\":\"North\",\"xPos\":12,\"yPos\":7}";
 
     assertNull(gson.fromJson(json, GamePiece.class));
 
   }
-  
-  private void testDeserialize(GamePiece p){
-    GsonBuilder gsonBuilder = new GsonBuilder();
-    gsonBuilder.registerTypeAdapter(GamePiece.class, GamePieceDeserializer.defaultDeserializer());
-    Gson gson = gsonBuilder.create();
-    
+
+  @Test
+  private Piece testDeserialize(GamePiece p){
+    Gson gson = PieceDeserializer.makeGsonWithTypeAdapter();
+
+
     p.setXPos(12);
     p.setYPos(7);
     p.setFacing(Directions.NORTH);
@@ -118,8 +117,9 @@ public class GamePieceDeserializerTest {
     System.out.println(json);
 
 
-    Piece newPiece = gson.fromJson(json, GamePiece.class);
+    Piece newPiece = gson.fromJson(json, Piece.class);
 
     assertEquals(p, newPiece);
+    return newPiece;
   }
 }

@@ -1,5 +1,6 @@
 package net.ddns.whomagoo.laserchess.game;
 
+import com.google.gson.annotations.Expose;
 import net.ddns.whomagoo.laserchess.game.move.Move;
 import net.ddns.whomagoo.laserchess.game.piece.GamePiece;
 import net.ddns.whomagoo.laserchess.game.piece.Hypercube;
@@ -25,7 +26,9 @@ public class Board implements Serializable {
   private String curTeamTurn;
 
   private List<String> teamOrder;
-  private Iterator<String> teamIterator;
+
+  @Expose(serialize = false, deserialize = false)
+  private transient Iterator<String> teamIterator;
 
   private boolean hasTeleported;
 
@@ -35,6 +38,10 @@ public class Board implements Serializable {
   }
 
   private Piece[][] items;
+
+  public Board(){
+
+  }
 
   public Board(int sizeX, int sizeY, List<String> teamOrder) {
     init(sizeX, sizeY);
@@ -234,6 +241,12 @@ public class Board implements Serializable {
   }
 
   private void nextTeam() {
+
+    if(teamIterator == null){
+      //set iterator to current team
+      teamIterator = teamOrder.listIterator(teamOrder.indexOf(curTeamTurn));
+    }
+
     if (!teamIterator.hasNext()) {
       teamIterator = teamOrder.listIterator();
     }

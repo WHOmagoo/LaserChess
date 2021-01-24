@@ -1,5 +1,6 @@
 package net.ddns.whomagoo.laserchess.game.move;
 
+import com.google.gson.annotations.Expose;
 import net.ddns.whomagoo.laserchess.game.Board;
 import net.ddns.whomagoo.laserchess.game.Directions;
 import net.ddns.whomagoo.laserchess.game.Location;
@@ -7,6 +8,7 @@ import net.ddns.whomagoo.laserchess.game.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Move {
   public static final String MOVE_NORTH = "Move North";
@@ -20,7 +22,11 @@ public class Move {
   private String name;
   private int targetX;
   private int targetY;
-  private MoveDoer move;
+
+  @Expose(deserialize = false, serialize = false)
+  private transient MoveDoer move;
+
+
   private Piece source;
 
 
@@ -30,7 +36,16 @@ public class Move {
       this.targetX = targetX;
       this.targetY = tagetY;
       this.source = source;
-      switch (name){
+      initMoveDoer();
+  }
+
+  public Move(String name, Location targetLoc, Piece source){
+    this(name, targetLoc.getX(), targetLoc.getY(), source);
+  }
+
+  private void initMoveDoer(){
+    if(move == null) {
+      switch (name) {
         case MOVE_EAST:
         case MOVE_NORTH:
         case MOVE_SOUTH:
@@ -46,14 +61,14 @@ public class Move {
         case FIRE_LASER:
           move = new FireLaser();
       }
+    }
   }
-
-  public Move(String name, Location targetLoc, Piece source){
-    this(name, targetLoc.getX(), targetLoc.getY(), source);
-  }
-
   public Piece getSource(){
     return source;
+  }
+
+  public Location getSourceLocation(){
+    return new Location(source.xPos(), source.yPos());
   }
 
   public String getName(){
@@ -69,6 +84,7 @@ public class Move {
   }
 
   public void doMove(Board board){
+    initMoveDoer();
     move.doMove(board, this);
     System.out.println(this);
   }
@@ -118,4 +134,16 @@ public class Move {
     return result;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Move move = (Move) o;
+    return getTargetX() == move.getTargetX() && getTargetY() == move.getTargetY() && getName().equals(move.getName()) && getSource().equals(move.getSource());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getName(), getTargetX(), getTargetY(), getSource());
+  }
 }
